@@ -276,3 +276,53 @@ int main() {
 
     return 0;
 }
+
+
+//file directory
+#include <iostream>
+#include <dirent.h>
+#include <cstdlib>
+#include <cstring>
+
+using namespace std;
+
+void sea(const char *dname) {
+    DIR *dir;
+    struct dirent *ent;
+    int flag = 0;
+    char a[15];
+
+    if ((dir = opendir(dname)) == NULL) {
+        cout << "\nUnable to open directory" << endl;
+        exit(1);
+    }
+
+    cout << "\nEnter the name of the file to be searched: ";
+    cin >> a;
+
+    while ((ent = readdir(dir)) != NULL) {
+        if (strcmp(a, ent->d_name) == 0) {
+            cout << ent->d_name << endl;
+            flag++;
+        }
+    }
+
+    if (flag == 1)
+        cout << "\nThe given file is found\n\n";
+    else
+        cout << "\nFile not found" << endl;
+
+    if (closedir(dir) != 0)
+        cout << "Unable to close directory" << endl;
+}
+
+int main() {
+    char dirname[25];
+
+    cout << "\nEnter the directory to be searched: ";
+    cin >> dirname;
+
+    sea(dirname);
+
+    return 0;
+}
