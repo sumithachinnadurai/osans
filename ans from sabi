@@ -1,0 +1,174 @@
+//FCFS/FIFO CPU SCHEDULING ALGORITHM
+#include<iostream>
+using namespace std;
+int main(){
+    cout<<"Enter Jobs:"<<endl;
+    string a[5];
+    for(int i=0;i<5;i++)
+        cin>>a[i];
+        
+    cout<<"Enter the burst time:"<<endl;
+    
+    int b[5];
+    for(int i=0;i<5;i++)
+        cin>>b[i];
+    
+    int wt[5];
+    int tat[5];
+    wt[0]=0;
+    tat[0]=b[0];
+    float avgwt=0.00;
+    float avgtat=0.00;
+    for(int i=1;i<5;i++){
+       tat[i]=b[i]+tat[i-1];
+       wt[i]=wt[i-1]+b[i-1];
+    }
+    cout<<"Process   "<<"Burst time   "<<"Waiting Time    "<<"Turn around Time"<<endl;
+    for(int i=0;i<5;i++){
+        avgtat+=tat[i];
+        avgwt+=wt[i];
+       cout<<a[i]<<"            "<<b[i]<<"          "<<wt[i]<<"          "<<tat[i]<<endl;
+    }
+    
+    cout<<"Average Waiting Time = "<<(avgwt/5)<<endl;
+    cout<<"Average Turn Ariund time = "<<(avgtat/5);
+    
+}
+
+//SJF CPU SCHEDULING ALGORITHM
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int main(){
+    cout<<"Enter Jobs:"<<endl;
+    string p[5],psjf[5];
+    for(int i=0;i<5;i++)
+        cin>>p[i];
+        
+    cout<<"Enter the burst time:"<<endl;
+    
+    int bt[5],btsjf[5];
+    for(int i=0;i<5;i++){
+        cin>>bt[i];
+        btsjf[i]=bt[i];
+    }
+    sort(btsjf,btsjf+5);
+    for(int i=0;i<5;i++){
+        for(int j=0;j<5;j++){
+            if(btsjf[i]==bt[j]&&bt[j]!=-1){
+                psjf[i]=p[j];
+                bt[j]=-1;
+            }
+        }
+    }
+        
+  
+    
+    
+    int wt[5];
+    int tat[5];
+    wt[0]=0;
+    tat[0]=btsjf[0];
+    float avgwt=0.00;
+    float avgtat=0.00;
+    for(int i=1;i<5;i++){
+      tat[i]=btsjf[i]+tat[i-1];
+      wt[i]=wt[i-1]+btsjf[i-1];
+    }
+    cout<<"Process   "<<"Burst time   "<<"Waiting Time    "<<"Turn around Time"<<endl;
+    for(int i=0;i<5;i++){
+        avgtat+=tat[i];
+        avgwt+=wt[i];
+       cout<<psjf[i]<<"            "<<btsjf[i]<<"          "<<wt[i]<<"          "<<tat[i]<<endl;
+    }
+    
+    cout<<"Average Waiting Time = "<<(avgwt/5)<<endl;
+    cout<<"Average Turn Ariund time = "<<(avgtat/5);
+    
+}
+
+//PAGE FAULT
+#include<algorithm>
+#include<iostream>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int p[n];
+    for(int i=0;i<n;i++){
+        cin>>p[i];
+    }
+    int a=-1,b=-1,c=-1,pf=0;
+    for(int i=0;i<n;i++){
+        if(p[i]==a){
+           continue;
+        }
+        else if(p[i]==b){
+        continue;
+        }
+        else if(p[i]==c){
+            continue;
+        }
+        else{
+            pf++;
+            if(pf%3==1){
+                a=p[i];
+            }
+            else if(pf%3==2){
+                b=p[i];
+            }
+            else{
+                c=p[i];
+            }
+        }
+        cout<<a<<"  "<<b<<"  "<<c<<endl;
+    }
+    cout<<"No of Page fault: "<<pf;
+}
+
+//SYSTEM CALL
+#include <stdio.h> 
+#include <sys/stat.h> 
+#include <stdlib.h> 
+int main() 
+{ 
+struct stat s; 
+int a; int b; 
+if(stat("suba",&s)==(-1)) 
+{ 
+perror("Error: cannot stat file"); 
+exit(0); 
+} 
+a=s.st_blksize; 
+b=s.st_size; 
+printf("ALLOCATED SIZE OF THE FILE :%d\nActual size of the file :%d\n",a,b); 
+return 0; 
+}
+
+PROCESS SYSTEM CALLS
+#include<stdio.h> 
+#include<unistd.h> 
+#include<stdlib.h> 
+void main() 
+{ 
+int pid; 
+pid=fork(); 
+if (pid < 0) 
+{ 
+printf("The fork cannot be created"); 
+exit(0); 
+} 
+else 
+if (pid==0) 
+{ 
+execlp("/home/ls","ls",NULL); 
+printf("\n The process id of the child: %d", getpid()); 
+printf("\n The process id of the parent: %d", getppid()); 
+} 
+else{ 
+printf("\n The process id of the parent: %d", getpid()); 
+ 
+printf("\n The process id of the grandparent: %d", getppid()); 
+}
+}
+
