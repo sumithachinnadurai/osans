@@ -326,3 +326,49 @@ int main() {
 
     return 0;
 }
+
+
+//file in directory or not
+#include<stdio.h> 
+#include<dirent.h> 
+#include<stdlib.h> 
+#include<string.h> 
+void sea(char *dname) 
+{ 
+DIR *dir; 
+struct dirent *ent; 
+int flag = 0; 
+char a[15]; 
+if ((dir= opendir(dname))==NULL) 
+{ 
+printf("\n unable to open directory "); 
+exit(1); 
+} 
+printf("\n Enter the name of the file to be searched :"); 
+scanf("%s",a); 
+45 
+ 
+ 
+while((ent=readdir(dir))!=NULL) 
+{ 
+if(!strcmp(a,ent->d_name)) 
+{ 
+printf("%s",ent->d_name); 
+flag++; 
+ 
+} 
+} 
+if(flag==1) 
+printf("\n the given file is found\n\n"); 
+else 
+printf("\nfile not found"); 
+if(closedir(dir)!=0) 
+printf("unable to close directory"); 
+} 
+int main() 
+{ 
+char dirname[25]; 
+printf("\n Enter the directory to be searched :\n"); 
+scanf("%s",dirname); 
+sea(dirname); 
+}
