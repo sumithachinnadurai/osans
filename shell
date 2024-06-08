@@ -1,0 +1,67 @@
+1.
+read n
+i=$n
+sum=0
+while [ $n -gt 0 ]
+do 
+digit=$(( n%10 ))
+sum=$(( sum+$digit ))
+n=$(( n/10 ))
+done
+echo "the sum of $i is $sum"
+
+
+2.
+read n
+a=expr $n % 4
+if [ $a -eq 0 ]
+then
+echo $n is leap year
+else
+echo $n is not a leap year
+fi
+
+3.
+read n
+a=expr $n % 2
+if [ $a -eq 0 ]
+then
+echo $n is even
+else
+echo $n is odd
+fi
+
+4.
+read a b c
+if [ $a -gt $b -a $a -gt $c ]
+then
+echo "$a is Greatest"
+elif [ $b -gt $c -a $b -gt $a ]
+then
+echo "$b is Greatest"
+else
+echo "$c is Greatest!"
+fi
+
+5.
+read n
+a=0
+b=1
+echo "The Fibonacci series is : "
+  
+for((i=0;i<n;i++))
+do
+echo -n "$a "
+f=$((a+b))
+a=$b
+b=$f
+done
+
+6.
+read n
+fact=1
+for((i=1;i<=n;i++))
+do
+fact=$( expr $fact \* $i )
+done
+echo The factorial of $n is $fact
