@@ -172,3 +172,107 @@ printf("\n The process id of the grandparent: %d", getppid());
 }
 }
 
+//producer consumer
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int count = 0;
+int front = 0;
+int rear = 0;
+char buffer[25];
+int p_p = 0;
+int c_p = 0;
+
+void producer(int);
+void consumer(int);
+void view(int);
+
+void producer(int n) {
+    char item;
+
+    if (count < n) {
+        cout << "Enter data: ";
+        cin >> item;
+        buffer[front] = item;
+        front = (front + 1) % 5;
+        count++;
+
+        if (c_p == 1 && count == 1) {
+            cout << "\nConsumer is now ready" << endl;
+            c_p = 0;
+        } else if (count == n) {
+            cout << "\nBuffer is full..." << endl;
+            p_p = 1;
+        }
+    }
+}
+
+void consumer(int n) {
+    char item;
+
+    if (count > 0) {
+        item = buffer[rear];
+        buffer[rear] = '\0';
+        cout << "\nC: " << item << endl;
+        rear = (rear + 1) % 5;
+        count--;
+
+        if (p_p == 1 && count == n - 1) {
+            cout << "\nProducer is now ready" << endl;
+            p_p = 0;
+        }
+    } else {
+        cout << "\nBuffer is empty..." << endl;
+        c_p = 1;
+    }
+}
+
+void view(int n) {
+    cout << "\nData of buffer: ";
+    for (int i = 0; i < n; i++) {
+        if (buffer[i] != '\0') {
+            cout << buffer[i];
+        }
+    }
+    cout << endl;
+}
+
+int main() {
+    int n, ch, f = 0;
+
+    cout << "\nENTER THE COUNT FOR THE BUFFER: ";
+    cin >> n;
+
+    cout << "\nOptions:";
+    cout << "\n1: Producer item ";
+    cout << "\n2: Consumer item ";
+    cout << "\n3: To view buffer ";
+    cout << "\n4: Exit" << endl;
+
+    do {
+        cout << "\nEnter your choice: ";
+        cin >> ch;
+
+        switch (ch) {
+            case 1:
+                producer(n);
+                break;
+            case 2:
+                consumer(n);
+                break;
+            case 3:
+                view(n);
+                break;
+            case 4:
+                f = 1;
+                break;
+            default:
+                cout << "\nEnter correct choice" << endl;
+                break;
+        }
+    } while (f == 0);
+
+    return 0;
+}
